@@ -12,6 +12,7 @@ var Casbin = new(casbin)
 
 type casbin struct{}
 
+// 这里放的是角色api权限
 var carbines = []gormadapter.CasbinRule{
 	{PType: "p", V0: "888", V1: "/base/login", V2: "POST"},
 	{PType: "p", V0: "888", V1: "/user/register", V2: "POST"},
@@ -108,6 +109,12 @@ var carbines = []gormadapter.CasbinRule{
 	{PType: "p", V0: "888", V1: "/recordList/getRecordList", V2: "GET"},
 	{PType: "p", V0: "888", V1: "/recordList/updateRecords", V2: "PUT"},
 	{PType: "p", V0: "888", V1: "/recordList/flushRecords", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/sslCheck/createSSLCheck", V2: "POST"}, //证书检查开始
+	{PType: "p", V0: "888", V1: "/sslCheck/deleteSSLCheck", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/sslCheck/deleteSSLCheckByIds", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/sslCheck/updateSSLCheck", V2: "PUT"},
+	{PType: "p", V0: "888", V1: "/sslCheck/findSSLCheck", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/sslCheck/getSSLCheckList", V2: "GET"}, //证书检查结束
 	{PType: "p", V0: "8881", V1: "/base/login", V2: "POST"},
 	{PType: "p", V0: "8881", V1: "/user/register", V2: "POST"},
 	{PType: "p", V0: "8881", V1: "/api/createApi", V2: "POST"},
