@@ -29,7 +29,7 @@
       <el-table-column label="检测时间" width="180">
         <template slot-scope="scope">{{ scope.row.UpdatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="域名或链接" prop="url" width="280" /> 
+      <el-table-column label="域名或链接" prop="url" width="280" />
       <el-table-column label="证书所属域名" prop="certDomain" width="220" />
       <el-table-column label="过期时间" width="180">
         <template slot-scope="scope">{{ scope.row.expiredAt|formatDate }}</template>
@@ -54,18 +54,15 @@
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="域名链接或域名:">
-      
           <el-input v-model="formData.url" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="证书过期时间:">
-      
-          <el-date-picker type="date" placeholder="选择日期" v-model="formData.expiredAt" clearable />
-       </el-form-item>
+          <el-date-picker v-model="formData.expiredAt" type="date" placeholder="选择日期" clearable />
+        </el-form-item>
         <el-form-item label="证书所属域名:">
-      
           <el-input v-model="formData.certDomain" clearable placeholder="请输入" />
-      </el-form-item>
-     </el-form>
+        </el-form-item>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取 消</el-button>
         <el-button type="primary" @click="enterDialog">确 定</el-button>
@@ -87,27 +84,11 @@ import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
   name: 'SSLCheck',
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getSSLCheckList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-      
-      formData: {
-        url: '',
-        expiredAt: new Date(),
-        certDomain: ''
-      }
-    }
-  },
   filters: {
     formatDate: function(time) {
       if (time !== null && time !== '') {
-        var date = new Date(time);
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss');
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
       } else {
         return ''
       }
@@ -120,15 +101,29 @@ export default {
       }
     }
   },
+  mixins: [infoList],
+  data() {
+    return {
+      listApi: getSSLCheckList,
+      dialogFormVisible: false,
+      type: '',
+      deleteVisible: false,
+      multipleSelection: [],
+      formData: {
+        url: '',
+        expiredAt: new Date(),
+        certDomain: ''
+      }
+    }
+  },
   async created() {
     await this.getTableData()
-    
   },
   methods: {
   // 条件搜索前端看此方法
     onSubmit() {
       this.page = 1
-      this.pageSize = 10   
+      this.pageSize = 10
       this.getTableData()
     },
     handleSelectionChange(val) {
@@ -181,9 +176,9 @@ export default {
       this.dialogFormVisible = false
       this.formData = {
         url: '',
-          expiredAt: new Date(),
-          certDomain: '',
-          
+        expiredAt: new Date(),
+        certDomain: ''
+
       }
     },
     async deleteSSLCheck(row) {
@@ -193,7 +188,7 @@ export default {
           type: 'success',
           message: '删除成功'
         })
-        if (this.tableData.length === 1 && this.page > 1 ) {
+        if (this.tableData.length === 1 && this.page > 1) {
           this.page--
         }
         this.getTableData()
@@ -202,10 +197,10 @@ export default {
     async enterDialog() {
       let res
       switch (this.type) {
-        case "create":
+        case 'create':
           res = await createSSLCheck(this.formData)
           break
-        case "update":
+        case 'update':
           res = await updateSSLCheck(this.formData)
           break
         default:
@@ -225,7 +220,7 @@ export default {
       this.type = 'create'
       this.dialogFormVisible = true
     }
-  },
+  }
 }
 </script>
 

@@ -4,24 +4,24 @@
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item label="所属账号:">
           <el-select v-model="searchInfo.account" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in DnsRamUserOptions" :key="key" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item,key) in DnsRamUserOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="dns提供商:">
           <el-select v-model="searchInfo.dnsProvider" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in CloudPlatFormOptions" :key="key" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item,key) in CloudPlatFormOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="公司:">
           <el-select v-model="searchInfo.company" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in companyOptions" :key="key" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item,key) in companyOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="域名:">
-          <el-input placeholder="dukanghub.com" v-model="searchInfo.domain" @keyup.enter.native="onSubmit" />
+          <el-input v-model="searchInfo.domain" placeholder="dukanghub.com" @keyup.enter.native="onSubmit" />
         </el-form-item>
         <el-form-item label="解析数">
-          <el-input placeholder="大于多少" v-model="searchInfo.recordTotal" @keyup.enter.native="onSubmit" />
+          <el-input v-model="searchInfo.recordTotal" placeholder="大于多少" @keyup.enter.native="onSubmit" />
         </el-form-item>
         <el-form-item>
           <el-button size="mini" type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
@@ -55,23 +55,23 @@
       <el-table-column label="域名" prop="domain" width="120" />
       <el-table-column label="公司" prop="company" width="120">
         <template slot-scope="scope">
-          {{filterDict(scope.row.company,"company")}}
+          {{ filterDict(scope.row.company,"company") }}
         </template>
       </el-table-column>
-      <el-table-column label="解析数" prop="recordTotal" width="120" /> 
+      <el-table-column label="解析数" prop="recordTotal" width="120" />
       <el-table-column label="dns提供商" prop="dnsProvider" width="120">
         <template slot-scope="scope">
-          {{filterDict(scope.row.dnsProvider,"CloudPlatForm")}}
+          {{ filterDict(scope.row.dnsProvider,"CloudPlatForm") }}
         </template>
       </el-table-column>
       <el-table-column label="所属账号" prop="account" width="120">
         <template slot-scope="scope">
-          {{filterDict(scope.row.account,"DnsRamUser")}}
+          {{ filterDict(scope.row.account,"DnsRamUser") }}
         </template>
       </el-table-column>
       <el-table-column label="注册日期" prop="registerTime" width="180">
         <template slot-scope="scope">
-          {{scope.row.registerTime|formatDate}}
+          {{ scope.row.registerTime|formatDate }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -95,7 +95,7 @@
     <!-- 变更修改的弹窗 -->
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="域名:" v-if='isShow'>
+        <el-form-item v-if="isShow" label="域名:">
           <el-input v-model="formData.domain" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="公司:">
@@ -103,7 +103,7 @@
             <el-option v-for="(item,key) in companyOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="解析数:" v-if="isShow">
+        <el-form-item v-if="isShow" label="解析数:">
           <el-input v-model.number="formData.recordTotal" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="dns提供商:">
@@ -116,8 +116,8 @@
             <el-option v-for="(item,key) in DnsRamUserOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="注册日期:" v-if='isShow'>
-          <el-date-picker type="datetime" placeholder="选择日期" v-model="formData.registerTime" clearable />
+        <el-form-item v-if="isShow" label="注册日期:">
+          <el-date-picker v-model="formData.registerTime" type="datetime" placeholder="选择日期" clearable />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -143,6 +143,23 @@ import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
   name: 'DomainList',
+  filters: {
+    formatDate: function(time) {
+      if (time !== null && time !== '') {
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
+      } else {
+        return ''
+      }
+    },
+    formatBoolean: function(bool) {
+      if (bool != null) {
+        return bool ? '是' : '否'
+      } else {
+        return ''
+      }
+    }
+  },
   mixins: [infoList],
   data() {
     return {
@@ -164,23 +181,6 @@ export default {
         registerTime: new Date()
       },
       isShow: true
-    }
-  },
-  filters: {
-    formatDate: function(time) {
-      if (time !== null && time !== '') {
-        var date = new Date(time)
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
-      } else {
-        return ''
-      }
-    },
-    formatBoolean: function(bool) {
-      if (bool != null) {
-        return bool ? '是' : '否'
-      } else {
-        return ''
-      }
     }
   },
   async created() {

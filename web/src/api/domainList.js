@@ -81,7 +81,6 @@ export const updateDomains = (data) => {
   })
 }
 
-
 // @Tags DomainInfo
 // @Summary 用id查询Domain
 // @Security ApiKeyAuth

@@ -1,24 +1,21 @@
 <template>
   <div>
     <el-form :model="formData" label-position="right" label-width="80px">
-      <el-form-item label="https域名链接:">
-    <el-input v-model="formData.url" clearable placeholder="请输入" />
-    </el-form-item>
-    
+      <el-form-item label="域名或链接:">
+        <el-input v-model="formData.url" clearable placeholder="请输入" />
+      </el-form-item>
       <el-form-item label="证书过期时间:">
-    
-      <el-date-picker type="date" placeholder="选择日期" v-model="formData.expiredAt" clearable></el-date-picker>
-    </el-form-item>
-    
+        <el-date-picker v-model="formData.expiredAt" type="date" placeholder="选择日期" clearable />
+      </el-form-item>
       <el-form-item label="证书所属域名:">
-    <el-input v-model="formData.certDomain" clearable placeholder="请输入" />
-    </el-form-item>
-    <el-form-item>
+        <el-input v-model="formData.certDomain" clearable placeholder="请输入" />
+      </el-form-item>
+      <el-form-item>
         <el-button size="mini" type="primary" @click="save">保存</el-button>
         <el-button size="mini" type="primary" @click="back">返回</el-button>
       </el-form-item>
     </el-form>
-</div>
+  </div>
 </template>
 
 <script>
@@ -35,10 +32,10 @@ export default {
     return {
       type: '',
       formData: {
-            url: '',
-            expiredAt: new Date(),
-            certDomain: '',
-            
+        url: '',
+        expiredAt: new Date(),
+        certDomain: ''
+
       }
     }
   },
@@ -53,7 +50,6 @@ export default {
     } else {
       this.type = 'create'
     }
-    
   },
   methods: {
     async save() {
