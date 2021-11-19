@@ -22,7 +22,7 @@ yarn-error.log*
 *.sln
 *.sw?
 
-go.sum
+
 /server/log/
 /server/gva
 /server/latest_log
