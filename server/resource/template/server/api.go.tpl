@@ -84,7 +84,7 @@ func Update{{.StructName}}(c *gin.Context) {
 	_ = c.ShouldBindJSON(&{{.Abbreviation}})
 	if err := service.Update{{.StructName}}({{.Abbreviation}}); err != nil {
         global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
-		response.FailWithMessage("更新失败", c)
+		response.FailWithMessage(fmt.Sprintf("更新失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("更新成功", c)
 	}

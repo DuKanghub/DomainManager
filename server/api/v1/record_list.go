@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
@@ -24,12 +25,11 @@ func CreateRecord(c *gin.Context) {
 	_ = c.ShouldBindJSON(&record)
 	if err := service.CreateRecord(record); err != nil {
 		global.GVA_LOG.Error("创建失败!", zap.Any("err", err))
-		response.FailWithMessage("创建失败", c)
+		response.FailWithMessage(fmt.Sprintf("创建失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("创建成功", c)
 	}
 }
-
 
 // DeleteRecord 删除解析
 // @Tags Record
@@ -45,12 +45,11 @@ func DeleteRecord(c *gin.Context) {
 	_ = c.ShouldBindJSON(&record)
 	if err := service.DeleteRecord(record); err != nil {
 		global.GVA_LOG.Error("删除失败!", zap.Any("err", err))
-		response.FailWithMessage("删除失败", c)
+		response.FailWithMessage(fmt.Sprintf("删除失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("删除成功", c)
 	}
 }
-
 
 // DeleteRecordByIds 批量删除Record
 // @Tags Record
@@ -66,7 +65,7 @@ func DeleteRecordByIds(c *gin.Context) {
 	_ = c.ShouldBindJSON(&IDS)
 	if err := service.DeleteRecordByIds(IDS); err != nil {
 		global.GVA_LOG.Error("批量删除失败!", zap.Any("err", err))
-		response.FailWithMessage("批量删除失败", c)
+		response.FailWithMessage(fmt.Sprintf("批量删除失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("批量删除成功", c)
 	}
@@ -86,7 +85,7 @@ func UpdateRecord(c *gin.Context) {
 	_ = c.ShouldBindJSON(&record)
 	if err := service.UpdateRecord(record); err != nil {
 		global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
-		response.FailWithMessage("更新失败", c)
+		response.FailWithMessage(fmt.Sprintf("更新失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("更新成功", c)
 	}
@@ -106,7 +105,7 @@ func UpdateRecords(c *gin.Context) {
 	_ = c.ShouldBindJSON(&records)
 	if err := service.UpdateRecordMulti(records); err != nil {
 		global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
-		response.FailWithMessage("更新失败", c)
+		response.FailWithMessage(fmt.Sprintf("更新失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("更新成功", c)
 	}
@@ -146,7 +145,7 @@ func GetRecordList(c *gin.Context) {
 	_ = c.ShouldBindQuery(&pageInfo)
 	if err, list, total := service.GetRecordInfoList(pageInfo); err != nil {
 		global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
-		response.FailWithMessage("获取失败", c)
+		response.FailWithMessage(fmt.Sprintf("获取失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithDetailed(response.PageResult{
 			List:     list,
@@ -165,11 +164,11 @@ func GetRecordList(c *gin.Context) {
 // @Produce application/json
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
 // @Router /recordList/flushRecords [get]
-func FlushRecords(c *gin.Context)  {
+func FlushRecords(c *gin.Context) {
 	err := service.FlushRecordsToDb()
 	if err != nil {
 		global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
-		response.FailWithMessage("获取失败", c)
+		response.FailWithMessage(fmt.Sprintf("获取失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("获取成功", c)
 	}

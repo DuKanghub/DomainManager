@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
@@ -23,8 +24,8 @@ func CreateDomain(c *gin.Context) {
 	var domain model.DomainInfo
 	_ = c.ShouldBindJSON(&domain)
 	if err := service.CreateDomain(domain); err != nil {
-        global.GVA_LOG.Error("创建失败!", zap.Any("err", err))
-		response.FailWithMessage("创建失败", c)
+		global.GVA_LOG.Error("创建失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("创建失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("创建成功", c)
 	}
@@ -43,8 +44,8 @@ func DeleteDomain(c *gin.Context) {
 	var domain model.DomainInfo
 	_ = c.ShouldBindJSON(&domain)
 	if err := service.DeleteDomain(domain); err != nil {
-        global.GVA_LOG.Error("删除失败!", zap.Any("err", err))
-		response.FailWithMessage("删除失败", c)
+		global.GVA_LOG.Error("删除失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("删除失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("删除成功", c)
 	}
@@ -61,10 +62,10 @@ func DeleteDomain(c *gin.Context) {
 // @Router /domainList/deleteDomainByIds [delete]
 func DeleteDomainByIds(c *gin.Context) {
 	var IDS request.IdsReq
-    _ = c.ShouldBindJSON(&IDS)
+	_ = c.ShouldBindJSON(&IDS)
 	if err := service.DeleteDomainByIds(IDS); err != nil {
-        global.GVA_LOG.Error("批量删除失败!", zap.Any("err", err))
-		response.FailWithMessage("批量删除失败", c)
+		global.GVA_LOG.Error("批量删除失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("批量删除失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("批量删除成功", c)
 	}
@@ -83,8 +84,8 @@ func UpdateDomain(c *gin.Context) {
 	var domain model.DomainInfo
 	_ = c.ShouldBindJSON(&domain)
 	if err := service.UpdateDomain(domain); err != nil {
-        global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
-		response.FailWithMessage("更新失败", c)
+		global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("更新失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("更新成功", c)
 	}
@@ -123,7 +124,7 @@ func FindDomain(c *gin.Context) {
 	var domain model.DomainInfo
 	_ = c.ShouldBindQuery(&domain)
 	if err, reDomain := service.GetDomainById(domain.ID); err != nil {
-        global.GVA_LOG.Error("查询失败!", zap.Any("err", err))
+		global.GVA_LOG.Error("查询失败!", zap.Any("err", err))
 		response.FailWithMessage("查询失败", c)
 	} else {
 		response.OkWithData(gin.H{"reDomain": reDomain}, c)
@@ -143,16 +144,16 @@ func GetDomainList(c *gin.Context) {
 	var pageInfo request.DomainListSearch
 	_ = c.ShouldBindQuery(&pageInfo)
 	if err, list, total := service.GetDomainList(pageInfo); err != nil {
-	    global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
-        response.FailWithMessage("获取失败", c)
-    } else {
-        response.OkWithDetailed(response.PageResult{
-            List:     list,
-            Total:    total,
-            Page:     pageInfo.Page,
-            PageSize: pageInfo.PageSize,
-        }, "获取成功", c)
-    }
+		global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("获取失败, 错误：%s", err.Error()), c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		}, "获取成功", c)
+	}
 }
 
 // FlushDomainsToDb 从线上获取最新域名信息并更新到数据库
@@ -167,7 +168,7 @@ func FlushDomainsToDb(c *gin.Context) {
 	err := service.FlushDomainsToDb()
 	if err != nil {
 		global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
-		response.FailWithMessage("获取失败", c)
+		response.FailWithMessage(fmt.Sprintf("获取失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("获取成功", c)
 	}

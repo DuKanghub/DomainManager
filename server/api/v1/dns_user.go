@@ -1,13 +1,14 @@
 package v1
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
-    "gin-vue-admin/model"
-    "gin-vue-admin/model/request"
-    "gin-vue-admin/model/response"
-    "gin-vue-admin/service"
-    "github.com/gin-gonic/gin"
-    "go.uber.org/zap"
+	"gin-vue-admin/model"
+	"gin-vue-admin/model/request"
+	"gin-vue-admin/model/response"
+	"gin-vue-admin/service"
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 // CreateDnsUser 创建DnsUser
@@ -23,8 +24,8 @@ func CreateDnsUser(c *gin.Context) {
 	var dnsUser model.DnsUser
 	_ = c.ShouldBindJSON(&dnsUser)
 	if err := service.CreateDnsUser(dnsUser); err != nil {
-        global.GVA_LOG.Error("创建失败!", zap.Any("err", err))
-		response.FailWithMessage("创建失败", c)
+		global.GVA_LOG.Error("创建失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("创建失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("创建成功", c)
 	}
@@ -43,8 +44,8 @@ func DeleteDnsUser(c *gin.Context) {
 	var dnsUser model.DnsUser
 	_ = c.ShouldBindJSON(&dnsUser)
 	if err := service.DeleteDnsUser(dnsUser); err != nil {
-        global.GVA_LOG.Error("删除失败!", zap.Any("err", err))
-		response.FailWithMessage("删除失败", c)
+		global.GVA_LOG.Error("删除失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("删除失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("删除成功", c)
 	}
@@ -61,10 +62,10 @@ func DeleteDnsUser(c *gin.Context) {
 // @Router /dnsUser/deleteDnsUserByIds [delete]
 func DeleteDnsUserByIds(c *gin.Context) {
 	var IDS request.IdsReq
-    _ = c.ShouldBindJSON(&IDS)
+	_ = c.ShouldBindJSON(&IDS)
 	if err := service.DeleteDnsUserByIds(IDS); err != nil {
-        global.GVA_LOG.Error("批量删除失败!", zap.Any("err", err))
-		response.FailWithMessage("批量删除失败", c)
+		global.GVA_LOG.Error("批量删除失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("批量删除失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("批量删除成功", c)
 	}
@@ -83,8 +84,8 @@ func UpdateDnsUser(c *gin.Context) {
 	var dnsUser model.DnsUser
 	_ = c.ShouldBindJSON(&dnsUser)
 	if err := service.UpdateDnsUser(dnsUser); err != nil {
-        global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
-		response.FailWithMessage("更新失败", c)
+		global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("更新失败, 错误：%s", err.Error()), c)
 	} else {
 		response.OkWithMessage("更新成功", c)
 	}
@@ -103,7 +104,7 @@ func FindDnsUserById(c *gin.Context) {
 	var dnsUser model.DnsUser
 	_ = c.ShouldBindQuery(&dnsUser)
 	if err, reDnsUser := service.GetDnsUserById(dnsUser.ID); err != nil {
-        global.GVA_LOG.Error("查询失败!", zap.Any("err", err))
+		global.GVA_LOG.Error("查询失败!", zap.Any("err", err))
 		response.FailWithMessage("查询失败", c)
 	} else {
 		response.OkWithData(gin.H{"reDnsUser": reDnsUser}, c)
@@ -123,14 +124,14 @@ func GetDnsUserList(c *gin.Context) {
 	var pageInfo request.DnsUserSearch
 	_ = c.ShouldBindQuery(&pageInfo)
 	if err, list, total := service.GetDnsUserList(pageInfo); err != nil {
-	    global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
-        response.FailWithMessage("获取失败", c)
-    } else {
-        response.OkWithDetailed(response.PageResult{
-            List:     list,
-            Total:    total,
-            Page:     pageInfo.Page,
-            PageSize: pageInfo.PageSize,
-        }, "获取成功", c)
-    }
+		global.GVA_LOG.Error("获取失败!", zap.Any("err", err))
+		response.FailWithMessage(fmt.Sprintf("获取失败, 错误：%s", err.Error()), c)
+	} else {
+		response.OkWithDetailed(response.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     pageInfo.Page,
+			PageSize: pageInfo.PageSize,
+		}, "获取成功", c)
+	}
 }
