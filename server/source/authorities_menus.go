@@ -14,7 +14,8 @@ type AuthorityMenus struct {
 	AuthorityId string `gorm:"column:sys_authority_authority_id"`
 	BaseMenuId  uint   `gorm:"column:sys_base_menu_id"`
 }
-
+// authorityMenus存的是角色id与菜单id,
+// 新增菜单如果需要初始化就自动添加上就需要在这里插入一条记录
 var authorityMenus = []AuthorityMenus{
 	{"888", 1},
 	{"888", 2},
@@ -41,8 +42,9 @@ var authorityMenus = []AuthorityMenus{
 	{"888", 23},
 	{"888", 24},
 	{"888", 25},
-	{"888", 26},
-	{"888", 27},
+	{"888", 26},	//域名列表
+	{"888", 27},	//解析列表
+	{"888", 28},	//证书检查菜单
 	{"8881", 1},
 	{"8881", 2},
 	{"8881", 8},

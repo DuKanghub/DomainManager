@@ -108,7 +108,12 @@ var apis = []model.SysApi{
 	{global.GVA_MODEL{ID: 105, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/recordList/updateRecords", "批量更新record", "recordList", "PUT"},
 	{global.GVA_MODEL{ID: 106, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/domainList/flushDomains", "强制更新域名信息到数据库", "domainList", "GET"},
 	{global.GVA_MODEL{ID: 107, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/recordList/flushRecords", "强制刷新域名解析", "recordList", "GET"},
-
+	{global.GVA_MODEL{ID: 108, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/createSSLCheck", "添加SSLCheck任务", "sslCheck", "POST"},
+	{global.GVA_MODEL{ID: 109, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/deleteSSLCheck", "删除SSLCheck任务", "sslCheck", "DELETE"},
+	{global.GVA_MODEL{ID: 110, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/deleteSSLCheckByIds", "批量删除SSLCheck", "sslCheck", "DELETE"},
+	{global.GVA_MODEL{ID: 111, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/updateSSLCheck", "更新SSLCheck", "sslCheck", "PUT"},
+	{global.GVA_MODEL{ID: 112, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/findSSLCheck", "根据ID获取SSLCheck", "sslCheck", "GET"},
+	{global.GVA_MODEL{ID: 113, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/getSSLCheckList", "分页获取SSLCheck列表", "sslCheck", "GET"},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)

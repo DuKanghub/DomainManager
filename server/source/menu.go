@@ -41,6 +41,7 @@ var menus = []model.SysBaseMenu{
 	{GVA_MODEL: global.GVA_MODEL{ID: 25, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "24", Path: "accounts", Name: "accounts", Hidden: false, Component: "view/dnsUser/dnsUser.vue", Sort: 0, Meta: model.Meta{Title: "用户管理", Icon: "user"}},
 	{GVA_MODEL: global.GVA_MODEL{ID: 26, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "24", Path: "domainList", Name: "domainList", Hidden: false, Component: "view/domainList/domainList.vue", Sort: 1, Meta: model.Meta{Title: "域名列表", Icon: "folder"}},
 	{GVA_MODEL: global.GVA_MODEL{ID: 27, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "24", Path: "recordList", Name: "recordList", Hidden: false, Component: "view/recordList/recordList.vue", Sort: 2, Meta: model.Meta{Title: "解析列表", Icon: "folder"}},
+	{GVA_MODEL: global.GVA_MODEL{ID: 28, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "24", Path: "sslCheck", Name: "sslCheck", Hidden: false, Component: "view/sslCheck/sslCheck.vue", Sort: 3, Meta: model.Meta{Title: "证书检查", Icon: "folder"}},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
