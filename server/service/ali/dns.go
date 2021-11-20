@@ -14,6 +14,9 @@ var (
 	pageN = 0
 	count int
 )
+type AliDnsProvider struct {
+}
+
 func GetAccount(req *model.Record) (client *alidns.Client, err error) {
 	var dnsUser model.DnsUser
 	err = global.GVA_DB.Where("account = ?", req.Account).First(&dnsUser).Error
@@ -25,7 +28,7 @@ func GetAccount(req *model.Record) (client *alidns.Client, err error) {
 	return
 }
 
-func AddRecord(req *model.Record) (err error) {
+func (a AliDnsProvider) AddRecord(req *model.Record) (err error) {
 	var cli *alidns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -65,7 +68,7 @@ func AddRecord(req *model.Record) (err error) {
 	return
 }
 
-func DelRecord(req *model.Record) (err error) {
+func (a AliDnsProvider) DelRecord(req *model.Record) (err error) {
 	var cli *alidns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -80,7 +83,7 @@ func DelRecord(req *model.Record) (err error) {
 	return err
 }
 
-func UpdateRecord(req *model.Record) (err error) {
+func (a AliDnsProvider) UpdateRecord(req *model.Record) (err error) {
 	var cli *alidns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -118,7 +121,7 @@ func UpdateRecord(req *model.Record) (err error) {
 	return nil
 }
 
-func FlushRecordsToDb(req *model.Record) (err error) {
+func (a AliDnsProvider) FlushRecordsToDb(req *model.Record) (err error) {
 	var cli *alidns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -184,11 +187,11 @@ func FlushRecordsToDb(req *model.Record) (err error) {
 	count += len(resp.DomainRecords.Record)
 	if count < total {
 		pageN += 1
-		_ = FlushRecordsToDb(req)
+		_ = a.FlushRecordsToDb(req)
 	}
 	return err
 }
-func FlushDomainsToDb(req model.DnsUser) (err error) {
+func (a AliDnsProvider) FlushDomainsToDb(req model.DnsUser) (err error) {
 	var cli *alidns.Client
 	cli, err = alidns.NewClientWithAccessKey("cn-hangzhou", req.AccessKey, req.AccessSecret)
 	request := alidns.CreateDescribeDomainsRequest()
@@ -257,7 +260,7 @@ func FlushDomainsToDb(req model.DnsUser) (err error) {
 		count += t1
 		if count < total {
 			pageN += 1
-			_ = FlushDomainsToDb(req)
+			_ = a.FlushDomainsToDb(req)
 		}
 	}
 	return err

@@ -5,8 +5,6 @@ import (
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
-	"gin-vue-admin/service/ali"
-	"gin-vue-admin/service/dnspod"
 	"strings"
 )
 
@@ -43,14 +41,11 @@ func CreateRecord(record model.Record) (err error) {
 	if record.Account == 0 {
 		record.Account = domain.Account
 	}
-	//fmt.Printf("%+v\n", record)
-	//fmt.Printf("%+v\n", domain)
-	if domain.DnsProvider == 1 {
-
-		err = ali.AddRecord(&record)
-
-	} else if domain.DnsProvider == 2 {
-		err = dnspod.AddRecord(&record)
+	provider := NewDnsProvider(model.DnsUser{Platform: domain.DnsProvider})
+	if provider != nil {
+		err = provider.AddRecord(&record)
+	} else {
+		return errors.New("未知的provider")
 	}
 	if err != nil {
 		return err
@@ -74,10 +69,11 @@ func DeleteRecord(record model.Record) (err error) {
 	if err != nil {
 		return err
 	}
-	if domain.DnsProvider == 1 {
-		err = ali.DelRecord(&rec)
-	} else if domain.DnsProvider == 2 {
-		err = dnspod.DelRecord(&rec)
+	provider := NewDnsProvider(model.DnsUser{Platform: domain.DnsProvider})
+	if provider != nil {
+		err = provider.DelRecord(&rec)
+	} else {
+		return errors.New("未知的provider")
 	}
 	if err != nil {
 		return err
@@ -94,30 +90,16 @@ func DeleteRecord(record model.Record) (err error) {
 // DeleteRecordByIds 批量删除Record记录
 // Author [dukanghub](https://github.com/DuKanghub)
 func DeleteRecordByIds(ids request.IdsReq) (err error) {
-	var domain model.DomainInfo
+	//var domain model.DomainInfo
 	var rec []model.Record
 	_ = global.GVA_DB.Where("id in ?", ids.Ids).Find(&rec).Error
 	for _,v := range rec {
-		err = global.GVA_DB.Where("domain = ?", v.Domain).First(&domain).Error
+		err = DeleteRecord(v)
 		if err != nil {
 			return err
-		}
-		if domain.DnsProvider == 1 {
-			err = ali.DelRecord(&v)
-		} else if domain.DnsProvider == 2 {
-			err = dnspod.DelRecord(&v)
-		}
-		if err != nil {
-			return err
-		} else {
-			// 更新domain_lists里的域名解析总数
-			domain.RecordTotal -= 1
-			err = global.GVA_DB.Updates(&domain).Error
 		}
 	}
-
-	err = global.GVA_DB.Delete(&[]model.Record{},"id in ?",ids.Ids).Error
-
+	//err = global.GVA_DB.Delete(&[]model.Record{},"id in ?",ids.Ids).Error
 	return err
 }
 
@@ -129,10 +111,11 @@ func UpdateRecord(record model.Record) (err error) {
 	if err != nil {
 		return err
 	}
-	if domain.DnsProvider == 1 {
-		err = ali.UpdateRecord(&record)
-	} else if domain.DnsProvider == 2 {
-		err = dnspod.UpdateRecord(&record)
+	provider := NewDnsProvider(model.DnsUser{Platform: domain.DnsProvider})
+	if provider != nil {
+		err = provider.UpdateRecord(&record)
+	} else {
+		return errors.New("未知的provider")
 	}
 	if err != nil {
 		return err
@@ -144,14 +127,11 @@ func UpdateRecord(record model.Record) (err error) {
 // UpdateRecordMulti 批量更新Record记录
 // Author [dukanghub](https://github.com/DuKanghub)
 func UpdateRecordMulti(records model.Records) (err error) {
-	//fmt.Printf("====%+v\n", records)
 	for _,v := range records.Records {
-
 		err = UpdateRecord(v)
 		if err != nil {
 			return err
 		}
-
 	}
 	return
 }
@@ -177,10 +157,11 @@ func FlushRecordsToDb() (err error) {
 			Domain: v.Domain,
 			Account: v.Account,
 		}
-		if v.DnsProvider == 1 {
-			err = ali.FlushRecordsToDb(&d)
-		} else if v.DnsProvider == 2 {
-			err = dnspod.FlushRecordsToDb(&d)
+		provider := NewDnsProvider(model.DnsUser{Platform: v.DnsProvider})
+		if provider != nil {
+			err = provider.FlushRecordsToDb(&d)
+		} else {
+			global.GVA_LOG.Error("未匹配到DnsProvider")
 		}
 		if err != nil {
 			return err

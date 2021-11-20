@@ -4,8 +4,7 @@ import (
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
-	"gin-vue-admin/service/ali"
-	"gin-vue-admin/service/dnspod"
+	"go.uber.org/zap"
 	"strings"
 )
 
@@ -101,17 +100,15 @@ func FlushDomainsToDb() (err error) {
 		return err
 	}
 	for _,v := range users {
-		if v.Platform == 1 {
-			err = ali.FlushDomainsToDb(v)
-			//go ali.FlushDomainsToDb(v)
+		provider := NewDnsProvider(v)
+		if provider != nil {
+			err = provider.FlushDomainsToDb(v)
 			if err != nil {
+				global.GVA_LOG.Error("拉取云上域名出错", zap.Any("err", err))
 				return err
 			}
-		} else if v.Platform == 2 {
-			err = dnspod.FlushDomainsToDb(v)
-			if err != nil {
-				return err
-			}
+		} else {
+			global.GVA_LOG.Error("未匹配到DnsProvider")
 		}
 	}
 	return err

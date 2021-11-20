@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+type TencentDnsProvider struct {
+}
 func GetAccount(req *model.Record) (client *ttdns.Client, err error) {
 	var dnsUser model.DnsUser
 	err = global.GVA_DB.Where("account = ?", req.Account).First(&dnsUser).Error
@@ -29,7 +31,7 @@ func GetAccount(req *model.Record) (client *ttdns.Client, err error) {
 	}
 }
 
-func AddRecord(req *model.Record) (err error) {
+func (t TencentDnsProvider) AddRecord(req *model.Record) (err error) {
 	var cli *ttdns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -60,7 +62,7 @@ func AddRecord(req *model.Record) (err error) {
 	return nil
 }
 
-func DelRecord(req *model.Record) (err error) {
+func (t TencentDnsProvider) DelRecord(req *model.Record) (err error) {
 	var cli *ttdns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -75,7 +77,7 @@ func DelRecord(req *model.Record) (err error) {
 	return err
 }
 
-func UpdateRecord(req *model.Record) (err error){
+func (t TencentDnsProvider) UpdateRecord(req *model.Record) (err error){
 	var cli *ttdns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -107,7 +109,7 @@ func UpdateRecord(req *model.Record) (err error){
 	req.RecordId = strconv.Itoa(int(*(response.Response.RecordId)))
 	return nil
 }
-func FlushRecordsToDb(req *model.Record) (err error) {
+func (t TencentDnsProvider) FlushRecordsToDb(req *model.Record) (err error) {
 	var cli *ttdns.Client
 	cli, err = GetAccount(req)
 	if err != nil {
@@ -153,7 +155,7 @@ func FlushRecordsToDb(req *model.Record) (err error) {
 	}
 	return err
 }
-func FlushDomainsToDb(req model.DnsUser) (err error) {
+func (t TencentDnsProvider) FlushDomainsToDb(req model.DnsUser) (err error) {
 	var cli *ttdns.Client
 	credential := common.NewCredential(
 		req.AccessKey,
