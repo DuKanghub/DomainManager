@@ -1,34 +1,34 @@
 <template>
   <div>
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline" ref="searchInfoRef">
+      <el-form ref="searchInfoRef" :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item label="所属账号:">
           <el-select v-model="searchInfo.account" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in DnsRamUserOptions" :key="key" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item,key) in DnsRamUserOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="域名:">
-          <el-input placeholder="dukanghub.com" v-model="searchInfo.domain" @keyup.enter.native="onSubmit" />
+          <el-input v-model="searchInfo.domain" placeholder="dukanghub.com" @keyup.enter.native="onSubmit" />
         </el-form-item>
         <el-form-item label="类型:">
           <el-select v-model="searchInfo.type" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in RecordTypeOptions" :key="key" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item,key) in RecordTypeOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="线路:">
           <el-select v-model="searchInfo.line" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in RecordLineOptions" :key="key" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item,key) in RecordLineOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item label="主机记录:">
-            <el-input placeholder="www" v-model="searchInfo.rr" @keyup.enter.native="onSubmit" />
+          <el-input v-model="searchInfo.rr" placeholder="www" @keyup.enter.native="onSubmit" />
         </el-form-item>
         <el-form-item label="记录值:">
-            <el-input placeholder="IP或域名" v-model="searchInfo.value" @keyup.enter.native="onSubmit" />
+          <el-input v-model="searchInfo.value" placeholder="IP或域名" @keyup.enter.native="onSubmit" />
         </el-form-item>
         <el-form-item label="状态：">
           <el-select v-model="searchInfo.status" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in RecordStatusOptions" :key="key" :label="item.label" :value="item.value"></el-option>
+            <el-option v-for="(item,key) in RecordStatusOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -62,26 +62,26 @@
       </el-table-column>
       <el-table-column label="域名" prop="domain" width="120" />
       <el-table-column label="主机记录" prop="rr" width="80" />
-    
+
       <el-table-column label="记录类型" prop="type" width="120">
         <template slot-scope="scope">
-          {{filterDict(scope.row.type,"RecordType")}}
-        </template>  
-      </el-table-column>     
+          {{ filterDict(scope.row.type,"RecordType") }}
+        </template>
+      </el-table-column>
       <el-table-column label="线路" prop="line" width="80">
         <template slot-scope="scope">
-          {{filterDict(scope.row.line,"RecordLine")}}
-        </template>   
-      </el-table-column>    
+          {{ filterDict(scope.row.line,"RecordLine") }}
+        </template>
+      </el-table-column>
       <el-table-column label="记录值" prop="value" width="180" />
       <el-table-column label="状态" prop="status" width="80">
-          <template slot-scope="scope">
-          {{filterDict(scope.row.status,"RecordStatus")}}
+        <template slot-scope="scope">
+          {{ filterDict(scope.row.status,"RecordStatus") }}
         </template>
-      </el-table-column>   
+      </el-table-column>
       <el-table-column label="所属账号" prop="account" width="120">
         <template slot-scope="scope">
-          {{filterDict(scope.row.account,"DnsRamUser")}}
+          {{ filterDict(scope.row.account,"DnsRamUser") }}
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -104,18 +104,18 @@
     <!-- 变更修改的弹窗 -->
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="域名:" v-if='isShow'>
+        <el-form-item v-if="isShow" label="域名:">
           <el-input v-model="formData.domain" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="主机记录:" v-if='isShow'>
+        <el-form-item v-if="isShow" label="主机记录:">
           <el-input v-model="formData.rr" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="类型:" v-if='isShow'>
+        <el-form-item v-if="isShow" label="类型:">
           <el-select v-model="formData.type" placeholder="请选择" clearable>
             <el-option v-for="(item,key) in RecordTypeOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="线路:" v-if='isShow'>
+        <el-form-item v-if="isShow" label="线路:">
           <el-select v-model="formData.line" placeholder="请选择" clearable>
             <el-option v-for="(item,key) in RecordLineOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
@@ -157,34 +157,6 @@ import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
   name: 'RecordList',
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getRecordList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-      RecordLineOptions: [],
-      RecordTypeOptions: [],
-      RecordStatusOptions: [],
-      DnsRamUserOptions: [],
-      searchInfo: { //解决mounted后域名搜索不能输入的问题
-        domain: ""
-      },
-      formData: {
-        domain: '',
-        rr: '',
-        type: 1,
-        line: 1,
-        value: '',
-        record_id: '',
-        status: 1,
-        account: 0
-      },
-      isShow: true
-    }
-  },
   filters: {
     formatDate: function(time) {
       if (time !== null && time !== '') {
@@ -202,14 +174,42 @@ export default {
       }
     }
   },
+  mixins: [infoList],
+  data() {
+    return {
+      listApi: getRecordList,
+      dialogFormVisible: false,
+      type: '',
+      deleteVisible: false,
+      multipleSelection: [],
+      RecordLineOptions: [],
+      RecordTypeOptions: [],
+      RecordStatusOptions: [],
+      DnsRamUserOptions: [],
+      searchInfo: { // 解决mounted后域名搜索不能输入的问题
+        domain: ''
+      },
+      formData: {
+        domain: '',
+        rr: '',
+        type: 1,
+        line: 1,
+        value: '',
+        record_id: '',
+        status: 1,
+        account: 0
+      },
+      isShow: true
+    }
+  },
   async created() {
-    if (this.$route.params.domain) {//域名详情跳转过来使用
+    if (this.$route.params.domain) { // 域名详情跳转过来使用
       this.searchInfo.domain = this.$route.params.domain
       this.onSubmit()
     } else {
       await this.getTableData()
     }
-    
+
     await this.getDict('DnsRamUser')
     await this.getDict('RecordType')
     await this.getDict('RecordLine')
@@ -304,7 +304,7 @@ export default {
         if (this.tableData.length === records.length && this.page > 1) {
           this.page--
         }
-        //this.updateVisible = false
+        // this.updateVisible = false
         this.getTableData()
         this.closeDialog()
       }
@@ -323,7 +323,6 @@ export default {
       }
     },
     async deleteRecord(row) {
-    
       const res = await deleteRecord({ ID: row.ID })
       if (res.code === 0) {
         this.$message({
@@ -340,7 +339,7 @@ export default {
       let res
       switch (this.type) {
         case 'create':
-          
+
           res = await createRecord(this.formData)
           break
         case 'update':
@@ -353,28 +352,28 @@ export default {
           res = await createRecord(this.formData)
           break
       }
-      if (this.type !== 'updateMulti') {  
+      if (this.type !== 'updateMulti') {
         if (res.code === 0) {
-            this.$message({
+          this.$message({
             type: 'success',
             message: '创建/更改成功'
-            })
-            this.closeDialog()
-            this.getTableData()
+          })
+          this.closeDialog()
+          this.getTableData()
         }
       }
     },
     openDialog() {
       this.type = 'create'
-      this.formData = { //新增记录时设置一些默认值
-            domain: this.searchInfo.domain,
-            rr: '',
-            type: 1,
-            line: 1,
-            value: '',
-            status: 1,
-            account: 1
-          }
+      this.formData = { // 新增记录时设置一些默认值
+        domain: this.searchInfo.domain,
+        rr: '',
+        type: 1,
+        line: 1,
+        value: '',
+        status: 1,
+        account: 1
+      }
       this.dialogFormVisible = true
       this.isShow = true
     },

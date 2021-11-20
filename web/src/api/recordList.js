@@ -73,12 +73,12 @@ export const updateRecord = (data) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"更新成功"}"
 // @Router /recordList/UpdateRecords [put]
 export const updateRecords = (data) => {
-    return service({
-      url: '/recordList/updateRecords',
-      method: 'put',
-      data
-    })
-  }
+  return service({
+    url: '/recordList/updateRecords',
+    method: 'put',
+    data
+  })
+}
 
 // @Tags RecordList
 // @Summary 用id查询Record
