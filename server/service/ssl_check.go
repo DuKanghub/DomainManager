@@ -6,6 +6,8 @@ import (
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
 	"gin-vue-admin/utils"
+	"go.uber.org/zap"
+	"time"
 )
 
 // CreateSSLCheck 创建SSLCheck记录
@@ -62,4 +64,22 @@ func GetSSLCheckInfoList(info request.SSLCheckSearch) (err error, list interface
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&sslChecks).Error
 	return err, sslChecks, total
+}
+
+// 定时任务函数：检查所有证书是否30天内过期
+func CheckAllSSL() {
+	var records []model.SSLCheck
+	duration, err := time.ParseDuration("720h")	// 30d
+	if err != nil || duration < 0 {
+		global.GVA_LOG.Error("ParseDuration失败!", zap.Any("err", err))
+		return
+	}
+
+	db := global.GVA_DB.Where("expiredAt < ?", time.Now().Add(duration)).Find(&records)
+	db.Order("expiredAt")
+	for _, record := range records {
+		remained := record.ExpiredAt.Sub(time.Now())
+		// TODO: 这里以后要弄成自动续签证书或通知
+		global.GVA_LOG.Warn("证书即将过期", zap.Any("证书", record.CertDomain), zap.Any("剩余时间", remained))
+	}
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gin-vue-admin/config"
 	"gin-vue-admin/global"
+	"gin-vue-admin/service"
 	"gin-vue-admin/utils"
 )
 
@@ -19,5 +20,11 @@ func Timer() {
 				})
 			}(detail)
 		}
+		go func() {
+			global.GVA_Timer.AddTaskByFunc("CheckAllSSL", "@daily", func() {
+				// 检查所有30天内过期的证书
+				service.CheckAllSSL()
+			})
+		}()
 	}
 }
