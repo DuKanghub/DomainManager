@@ -52,14 +52,14 @@
       @size-change="handleSizeChange"
     />
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
-      <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="域名链接或域名:">
+      <el-form :model="formData" label-position="right" label-width="120px">
+        <el-form-item label="域名或链接:">
           <el-input v-model="formData.url" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="证书过期时间:">
+        <el-form-item v-if="isShow" label="过期时间:">
           <el-date-picker v-model="formData.expiredAt" type="date" placeholder="选择日期" clearable />
         </el-form-item>
-        <el-form-item label="证书所属域名:">
+        <el-form-item v-if="isShow" label="所属域名:">
           <el-input v-model="formData.certDomain" clearable placeholder="请输入" />
         </el-form-item>
       </el-form>
@@ -113,7 +113,8 @@ export default {
         url: '',
         expiredAt: new Date(),
         certDomain: ''
-      }
+      },
+      isShow: false
     }
   },
   async created() {
@@ -185,6 +186,7 @@ export default {
     async updateSSLCheck(row) {
       const res = await findSSLCheck({ ID: row.ID })
       this.type = 'update'
+      this.isShow = true
       if (res.code === 0) {
         this.formData = res.data.resslCheck
         this.dialogFormVisible = true
@@ -192,11 +194,11 @@ export default {
     },
     closeDialog() {
       this.dialogFormVisible = false
+      this.isShow = false
       this.formData = {
         url: '',
         expiredAt: new Date(),
         certDomain: ''
-
       }
     },
     async deleteSSLCheck(row) {
