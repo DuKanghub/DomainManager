@@ -32,7 +32,7 @@
       <el-table-column label="域名或链接" prop="url" width="280" />
       <el-table-column label="证书所属域名" prop="certDomain" width="220" />
       <el-table-column label="过期时间" width="180">
-        <template slot-scope="scope">{{ scope.row.expiredAt|formatDate }}</template>
+        <template slot-scope="scope"><span :style="{color: getColorByTime(scope.row.expiredAt)}">{{scope.row.expiredAt|formatDate}}</span></template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -125,6 +125,24 @@ export default {
       this.page = 1
       this.pageSize = 10
       this.getTableData()
+    },
+    getColorByTime(time) {
+      if (time !== null && time !== '') {
+        var date = new Date(time)
+        var now = new Date().getTime()
+        var minute = 1000 * 60
+        var hour = minute * 60
+        var day = hour * 24
+        if (date <= now) {
+          return 'grey'
+        } else if (date - now <= 30 * day) {
+          return 'red'
+        } else {
+          return ''
+        }
+      } else {
+        return ''
+      }
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
