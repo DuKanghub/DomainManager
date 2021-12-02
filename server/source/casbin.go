@@ -115,6 +115,19 @@ var carbines = []gormadapter.CasbinRule{
 	{PType: "p", V0: "888", V1: "/sslCheck/updateSSLCheck", V2: "PUT"},
 	{PType: "p", V0: "888", V1: "/sslCheck/findSSLCheck", V2: "GET"},
 	{PType: "p", V0: "888", V1: "/sslCheck/getSSLCheckList", V2: "GET"}, //证书检查结束
+	{PType: "p", V0: "888", V1: "/recordList/flushRecords", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/sshUser/createSSHUser", V2: "POST"}, //SSH用户开始
+	{PType: "p", V0: "888", V1: "/sshUser/deleteSSHUser", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/sshUser/deleteSSHUserByIds", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/sshUser/updateSSHUser", V2: "PUT"},
+	{PType: "p", V0: "888", V1: "/sshUser/findSSHUser", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/sshUser/getSSHUserList", V2: "GET"}, //SSH用户结束
+	{PType: "p", V0: "888", V1: "/host/createHostInfo", V2: "POST"}, //主机列表开始
+	{PType: "p", V0: "888", V1: "/host/deleteHostInfo", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/host/deleteHostInfoByIds", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/host/updateHostInfo", V2: "PUT"},
+	{PType: "p", V0: "888", V1: "/host/findHostInfo", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/host/getHostInfoList", V2: "GET"}, //主机列表结束
 	{PType: "p", V0: "8881", V1: "/base/login", V2: "POST"},
 	{PType: "p", V0: "8881", V1: "/user/register", V2: "POST"},
 	{PType: "p", V0: "8881", V1: "/api/createApi", V2: "POST"},

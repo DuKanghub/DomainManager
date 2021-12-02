@@ -114,6 +114,18 @@ var apis = []model.SysApi{
 	{global.GVA_MODEL{ID: 111, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/updateSSLCheck", "更新SSLCheck", "sslCheck", "PUT"},
 	{global.GVA_MODEL{ID: 112, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/findSSLCheck", "根据ID获取SSLCheck", "sslCheck", "GET"},
 	{global.GVA_MODEL{ID: 113, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sslCheck/getSSLCheckList", "分页获取SSLCheck列表", "sslCheck", "GET"},
+	{global.GVA_MODEL{ID: 114, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sshUser/createSSHUser", "新增远程用户", "sshUser", "POST"},
+	{global.GVA_MODEL{ID: 115, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sshUser/deleteSSHUser", "删除远程用户", "sshUser", "DELETE"},
+	{global.GVA_MODEL{ID: 116, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sshUser/deleteSSHUserByIds", "批量删除远程用户", "sshUser", "DELETE"},
+	{global.GVA_MODEL{ID: 117, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sshUser/updateSSHUser", "更新远程用户", "sshUser", "PUT"},
+	{global.GVA_MODEL{ID: 118, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sshUser/findSSHUser", "根据ID获取远程用户", "sshUser", "GET"},
+	{global.GVA_MODEL{ID: 119, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sshUser/getSSHUserList", "获取远程用户列表", "sshUser", "GET"},
+	{global.GVA_MODEL{ID: 120, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/createHostInfo", "新增远程主机信息", "host", "POST"},
+	{global.GVA_MODEL{ID: 121, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/deleteHostInfo", "删除远程主机信息", "host", "DELETE"},
+	{global.GVA_MODEL{ID: 122, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/deleteHostInfoByIds", "批量删除远程主机信息", "host", "DELETE"},
+	{global.GVA_MODEL{ID: 123, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/updateHostInfo", "更新远程主机信息", "host", "PUT"},
+	{global.GVA_MODEL{ID: 124, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/findHostInfo", "根据ID获取远程主机信息", "host", "GET"},
+	{global.GVA_MODEL{ID: 125, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/getHostInfoList", "获取远程主机信息列表", "host", "GET"},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
