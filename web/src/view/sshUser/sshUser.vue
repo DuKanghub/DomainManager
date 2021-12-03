@@ -30,13 +30,13 @@
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
       <el-table-column label="名称" prop="name" width="120" />
-      <el-table-column label="用户名" prop="username" width="120" />
-      <el-table-column label="密码" prop="password" width="120" />
-      <el-table-column label="私钥" prop="privateKey" width="120" />
-      <el-table-column label="启用sudo" prop="become" width="120">
+      <el-table-column label="用户名" prop="username" width="100" />
+      <el-table-column :show-tooltip-when-overflow="true" label="密码" prop="password" width="120" />
+      <el-table-column :show-tooltip-when-overflow="true" label="私钥" prop="privateKey" width="180" />
+      <el-table-column label="启用sudo" prop="become" width="100">
         <template slot-scope="scope">{{ scope.row.become|formatBoolean }}</template>
       </el-table-column>
-      <el-table-column label="秘钥认证" prop="key_auth" width="120">
+      <el-table-column label="秘钥认证" prop="key_auth" width="100">
         <template slot-scope="scope">{{ scope.row.key_auth|formatBoolean }}</template>
       </el-table-column>
       <el-table-column label="备注" prop="comment" width="120" /> <el-table-column label="操作">

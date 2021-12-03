@@ -4,12 +4,37 @@ import (
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
+	"gin-vue-admin/utils"
 )
 
+// 用户信息加密
+func encodeUser(sshUser *model.SSHUser) error {
+	if sshUser.Password != "" {
+		src := sshUser.Password
+		dst, err := utils.EncodeStr([]byte(src))
+		if err != nil {
+			return err
+		}
+		sshUser.Password = dst
+	}
+	if sshUser.PrivateKey != "" {
+		src := sshUser.PrivateKey
+		dst, err := utils.EncodeStr([]byte(src))
+		if err != nil {
+			return err
+		}
+		sshUser.PrivateKey = dst
+	}
+	return nil
+}
 // CreateSSHUser 创建SSHUser记录
 // Author [piexlmax](https://github.com/piexlmax)
 func CreateSSHUser(sshUser model.SSHUser) (err error) {
-
+	// 将传入的密码和秘钥加密后再存入数据库
+	err = encodeUser(&sshUser)
+	if err != nil {
+		return err
+	}
 	err = global.GVA_DB.Create(&sshUser).Error
 	if err != nil {
 		return err
@@ -55,6 +80,11 @@ func DeleteSSHUserByIds(ids request.IdsReq) (err error) {
 // UpdateSSHUser 更新SSHUser记录
 // Author [piexlmax](https://github.com/piexlmax)
 func UpdateSSHUser(sshUser model.SSHUser) (err error) {
+	// 将传入的密码和秘钥加密后再存入数据库
+	err = encodeUser(&sshUser)
+	if err != nil {
+		return err
+	}
 	err = global.GVA_DB.Save(&sshUser).Error
 	if err != nil {
 		return err
