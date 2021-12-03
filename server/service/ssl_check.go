@@ -19,7 +19,8 @@ func CreateSSLCheck(sslCheck model.SSLCheck) (err error) {
 	if err != nil {
 		return err
 	}
-	err = global.GVA_DB.Create(&info).Error
+	err = global.GVA_DB.FirstOrCreate(&info, "cert_domain = ?", info.CertDomain).Error
+	//err = global.GVA_DB.Create(&info).Error
 	return err
 }
 
