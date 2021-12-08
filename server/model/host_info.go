@@ -14,6 +14,7 @@ type HostInfo struct {
       Port  int `json:"port" form:"port" gorm:"column:port;comment:;type:int;size:11;"`
       Active  *bool `json:"active" form:"active" gorm:"column:active;comment:是否启用;type:tinyint"`
       UserId  int `json:"user_id" form:"user_id" gorm:"column:user_id;comment:用户ID;type:int;size:11;"`
+      GroupId int `json:"group_id" form:"group_id" gorm:"column:group_id;comment:主机分组ID;type:int;size:6;"`
 }
 
 

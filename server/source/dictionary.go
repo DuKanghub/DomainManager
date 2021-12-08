@@ -33,6 +33,7 @@ func (d *dictionary) Init() error {
 		{GVA_MODEL: global.GVA_MODEL{ID: 11, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: "记录类型", Type: "RecordType", Status: status, Desc: "解析记录类型"},
 		{GVA_MODEL: global.GVA_MODEL{ID: 12, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: "解析状态", Type: "RecordStatus", Status: status, Desc: "解析状态"},
 		{GVA_MODEL: global.GVA_MODEL{ID: 13, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: "SSH账号", Type: "SSHUser", Status: status, Desc: "远程SSH账号"},
+		{GVA_MODEL: global.GVA_MODEL{ID: 14, CreatedAt: time.Now(), UpdatedAt: time.Now()}, Name: "主机分组", Type: "HostGroup", Status: status, Desc: "主机分组"},
 	}
 	return global.GVA_DB.Transaction(func(tx *gorm.DB) error {
 		if tx.Where("id IN ?", []int{1, 12}).Find(&[]model.SysDictionary{}).RowsAffected == 2 {

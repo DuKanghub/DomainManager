@@ -54,6 +54,7 @@ func (d *dictionaryDetail) Init() error {
 		{global.GVA_MODEL{ID: 35, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "TXT", 6, status, 6, 11},
 		{global.GVA_MODEL{ID: 36, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "启用", 1, status, 1, 12},
 		{global.GVA_MODEL{ID: 37, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "禁用", 2, status, 2, 12},
+		{global.GVA_MODEL{ID: 38, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "Default", 0, status, 0, 14},
 	}
 	return global.GVA_DB.Transaction(func(tx *gorm.DB) error {
 		if tx.Where("id IN ?", []int{1, 37}).Find(&[]model.SysDictionaryDetail{}).RowsAffected == 2 {

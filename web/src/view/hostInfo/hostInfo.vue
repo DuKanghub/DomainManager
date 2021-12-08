@@ -63,6 +63,11 @@
           {{ filterDict(scope.row.user_id,"SSHUser") }}
         </template>
       </el-table-column>
+      <el-table-column label="分组" prop="group_id" width="120">
+        <template slot-scope="scope">
+          {{ filterDict(scope.row.group_id,"HostGroup") }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateHostInfo(scope.row)">变更</el-button>
@@ -97,6 +102,11 @@
         <el-form-item label="用户:">
           <el-select v-model="formData.user_id" placeholder="请选择" clearable>
             <el-option v-for="(item,key) in SSHUserOptions" :key="key" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="分组:">
+          <el-select v-model="formData.group_id" placeholder="请选择" clearable>
+            <el-option v-for="(item,key) in HostGroupOptions" :key="key" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -147,20 +157,21 @@ export default {
       deleteVisible: false,
       multipleSelection: [],
       SSHUserOptions: [],
-
+      HostGroupOptions: [],
       formData: {
         ip: '',
         hostname: '',
         port: 22,
         active: true,
-        user_id: 1
-
+        user_id: 1,
+        group_id: 0
       }
     }
   },
   async created() {
     await this.getTableData()
     await this.getDict('SSHUser')
+    await this.getDict('HostGroup')
   },
   methods: {
   // 条件搜索前端看此方法
@@ -225,8 +236,8 @@ export default {
         hostname: '',
         port: 0,
         active: false,
-        user_id: 0
-
+        user_id: 0,
+        group_id: 0
       }
     },
     async deleteHostInfo(row) {
