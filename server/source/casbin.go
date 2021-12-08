@@ -122,12 +122,18 @@ var carbines = []gormadapter.CasbinRule{
 	{PType: "p", V0: "888", V1: "/sshUser/updateSSHUser", V2: "PUT"},
 	{PType: "p", V0: "888", V1: "/sshUser/findSSHUser", V2: "GET"},
 	{PType: "p", V0: "888", V1: "/sshUser/getSSHUserList", V2: "GET"}, //SSH用户结束
-	{PType: "p", V0: "888", V1: "/host/createHostInfo", V2: "POST"}, //主机列表开始
+	{PType: "p", V0: "888", V1: "/host/createHostInfo", V2: "POST"},   //主机列表开始
 	{PType: "p", V0: "888", V1: "/host/deleteHostInfo", V2: "DELETE"},
 	{PType: "p", V0: "888", V1: "/host/deleteHostInfoByIds", V2: "DELETE"},
 	{PType: "p", V0: "888", V1: "/host/updateHostInfo", V2: "PUT"},
 	{PType: "p", V0: "888", V1: "/host/findHostInfo", V2: "GET"},
-	{PType: "p", V0: "888", V1: "/host/getHostInfoList", V2: "GET"}, //主机列表结束
+	{PType: "p", V0: "888", V1: "/host/getHostInfoList", V2: "GET"},   //主机列表结束
+	{PType: "p", V0: "888", V1: "/cronJob/createCronJob", V2: "POST"}, //定时任务开始
+	{PType: "p", V0: "888", V1: "/cronJob/deleteCronJob", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/cronJob/deleteCronJobByIds", V2: "DELETE"},
+	{PType: "p", V0: "888", V1: "/cronJob/updateCronJob", V2: "PUT"},
+	{PType: "p", V0: "888", V1: "/cronJob/findCronJob", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/cronJob/getCronJobList", V2: "GET"}, //定时任务结束
 	{PType: "p", V0: "8881", V1: "/base/login", V2: "POST"},
 	{PType: "p", V0: "8881", V1: "/user/register", V2: "POST"},
 	{PType: "p", V0: "8881", V1: "/api/createApi", V2: "POST"},
@@ -208,9 +214,13 @@ var carbines = []gormadapter.CasbinRule{
 //@author: [SliverHorn](https://github.com/SliverHorn)
 //@description: casbin_rule 表数据初始化
 func (c *casbin) Init() error {
-	global.GVA_DB.AutoMigrate(gormadapter.CasbinRule{})
+	err := global.GVA_DB.AutoMigrate(gormadapter.CasbinRule{})
+	if err != nil {
+		color.Error.Println("\n[mysql] --> casbin_rule 表结构迁移失败")
+		return err
+	}
 	return global.GVA_DB.Transaction(func(tx *gorm.DB) error {
-		if tx.Find(&[]gormadapter.CasbinRule{}).RowsAffected == 154 {
+		if tx.Find(&[]gormadapter.CasbinRule{}).RowsAffected == 193 {
 			color.Danger.Println("\n[Mysql] --> casbin_rule 表的初始数据已存在!")
 			return nil
 		}

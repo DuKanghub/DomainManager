@@ -45,6 +45,8 @@ var menus = []model.SysBaseMenu{
 	{GVA_MODEL: global.GVA_MODEL{ID: 29, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "0", Path: "hostManager", Name: "hostManager", Hidden: false, Component: "view/routerHolder.vue", Sort: 7, Meta: model.Meta{Title: "主机管理", Icon: "s-tools"}},
 	{GVA_MODEL: global.GVA_MODEL{ID: 30, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "29", Path: "host", Name: "host", Hidden: false, Component: "view/hostInfo/hostInfo.vue", Sort: 1, Meta: model.Meta{Title: "主机列表", Icon: "folder"}},
 	{GVA_MODEL: global.GVA_MODEL{ID: 31, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "29", Path: "sshUser", Name: "sshUser", Hidden: false, Component: "view/sshUser/sshUser.vue", Sort: 2, Meta: model.Meta{Title: "远程用户", Icon: "folder"}},
+	{GVA_MODEL: global.GVA_MODEL{ID: 32, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "0", Path: "ops", Name: "ops", Hidden: false, Component: "view/routerHolder.vue", Sort: 8, Meta: model.Meta{Title: "作业中心", Icon: "coffee-cup"}},
+	{GVA_MODEL: global.GVA_MODEL{ID: 33, CreatedAt: time.Now(), UpdatedAt: time.Now()}, MenuLevel: 0, ParentId: "32", Path: "cronJob", Name: "cronJob", Hidden: false, Component: "view/cronJob/cronJob.vue", Sort: 2, Meta: model.Meta{Title: "定时任务", Icon: "folder"}},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)

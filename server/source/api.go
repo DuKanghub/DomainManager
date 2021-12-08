@@ -126,6 +126,12 @@ var apis = []model.SysApi{
 	{global.GVA_MODEL{ID: 123, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/updateHostInfo", "更新远程主机信息", "host", "PUT"},
 	{global.GVA_MODEL{ID: 124, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/findHostInfo", "根据ID获取远程主机信息", "host", "GET"},
 	{global.GVA_MODEL{ID: 125, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/host/getHostInfoList", "获取远程主机信息列表", "host", "GET"},
+	{global.GVA_MODEL{ID: 126, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/createCronJob", "新增定时任务", "cronJob", "POST"},
+	{global.GVA_MODEL{ID: 127, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/deleteCronJob", "删除定时任务", "cronJob", "DELETE"},
+	{global.GVA_MODEL{ID: 128, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/deleteCronJobByIds", "批量删除定时任务", "cronJob", "DELETE"},
+	{global.GVA_MODEL{ID: 129, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/updateCronJob", "更新定时任务", "cronJob", "PUT"},
+	{global.GVA_MODEL{ID: 130, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/findCronJob", "根据ID获取定时任务", "cronJob", "GET"},
+	{global.GVA_MODEL{ID: 131, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/getCronJobList", "获取定时任务列表", "cronJob", "GET"},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)

@@ -137,6 +137,7 @@ func InitDB(conf request.InitDB) error {
 		model.SSLCheck{},
 		model.SSHUser{},
 		model.HostInfo{},
+		model.CronJob{},
 	)
 	if err != nil {
 		global.GVA_DB = nil
