@@ -11,6 +11,7 @@ func InitCronJobRouter(Router *gin.RouterGroup) {
 	CronJobRouter := Router.Group("cronJob").Use(middleware.OperationRecord())
 	{
 		CronJobRouter.POST("createCronJob", v1.CreateCronJob)             // 新建CronJob
+		CronJobRouter.POST("deployCronJob", v1.DeployCronJob)             // 部署CronJob到目标主机
 		CronJobRouter.DELETE("deleteCronJob", v1.DeleteCronJob)           // 删除CronJob
 		CronJobRouter.DELETE("deleteCronJobByIds", v1.DeleteCronJobByIds) // 批量删除CronJob
 		CronJobRouter.PUT("updateCronJob", v1.UpdateCronJob)              // 更新CronJob

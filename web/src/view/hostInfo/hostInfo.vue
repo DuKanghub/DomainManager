@@ -234,9 +234,9 @@ export default {
       this.formData = {
         ip: '',
         hostname: '',
-        port: 0,
+        port: 22,
         active: false,
-        user_id: 0,
+        user_id: 1,
         group_id: 0
       }
     },

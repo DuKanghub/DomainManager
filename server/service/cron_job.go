@@ -1,15 +1,43 @@
 package service
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
+	"gin-vue-admin/utils"
 )
 
 // CreateCronJob 创建CronJob记录
 // Author [piexlmax](https://github.com/piexlmax)
 func CreateCronJob(cronJob model.CronJob) (err error) {
 	err = global.GVA_DB.Create(&cronJob).Error
+	return err
+}
+// CreateCronJob 部署CronJob到目标主机
+// Author [piexlmax](https://github.com/DuKanghub)
+func DeployCronJob(cronJob model.CronJob) (err error) {
+	var (
+		host model.HostInfo
+		user model.SSHUser
+	)
+	err = global.GVA_DB.Where("ip = ?", cronJob.ExecHost).First(&host).Error
+	if err != nil {
+		return err
+	}
+	fmt.Printf("host: +%v\n", host)
+	err = global.GVA_DB.Where("id = ?", host.UserId).First(&user).Error
+	if err != nil {
+		return err
+	}
+	fmt.Printf("ssh user: +%v\n", user)
+	adhoc := &utils.AnsibleAdHoc{Host: host, SUser: user}
+	stdout, err := adhoc.DeployCronJob(cronJob)
+	// err = adhoc.RunCmdTest(cronJob.Command)
+	if err != nil {
+		return err
+	}
+	fmt.Println(stdout)
 	return err
 }
 

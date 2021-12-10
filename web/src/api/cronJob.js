@@ -95,3 +95,19 @@ export const getCronJobList = (params) => {
     params
   })
 }
+
+// @Tags CronJob
+// @Summary 部署CronJob
+// @Security ApiKeyAuth
+// @accept application/json
+// @Produce application/json
+// @Param data body model.CronJob true "部署CronJob"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
+// @Router /cronJob/deployCronJob [post]
+export const deployCronJob = (data) => {
+  return service({
+    url: '/cronJob/deployCronJob',
+    method: 'post',
+    data
+  })
+}

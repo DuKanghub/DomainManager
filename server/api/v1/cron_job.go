@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"errors"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
@@ -8,6 +9,7 @@ import (
 	"gin-vue-admin/service"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"strconv"
 )
 
 // CreateCronJob 创建CronJob
@@ -22,6 +24,7 @@ import (
 func CreateCronJob(c *gin.Context) {
 	var cronJob model.CronJob
 	_ = c.ShouldBindJSON(&cronJob)
+	setCreator(c, &cronJob)
 	if err := service.CreateCronJob(cronJob); err != nil {
 		global.GVA_LOG.Error("创建失败!", zap.Any("err", err))
 		response.FailWithMessage("创建失败", c)
@@ -30,6 +33,12 @@ func CreateCronJob(c *gin.Context) {
 	}
 }
 
+func setCreator(c *gin.Context, cronJob *model.CronJob)  {
+	creator, err := strconv.Atoi(c.Request.Header.Get("X-User-id"))
+	if err == nil {
+		cronJob.Creator = creator
+	}
+}
 // DeleteCronJob 删除CronJob
 // @Tags CronJob
 // @Summary 删除CronJob
@@ -82,6 +91,7 @@ func DeleteCronJobByIds(c *gin.Context) {
 func UpdateCronJob(c *gin.Context) {
 	var cronJob model.CronJob
 	_ = c.ShouldBindJSON(&cronJob)
+	setCreator(c, &cronJob)
 	if err := service.UpdateCronJob(cronJob); err != nil {
 		global.GVA_LOG.Error("更新失败!", zap.Any("err", err))
 		response.FailWithMessage("更新失败", c)
@@ -132,5 +142,29 @@ func GetCronJobList(c *gin.Context) {
 			Page:     pageInfo.Page,
 			PageSize: pageInfo.PageSize,
 		}, "获取成功", c)
+	}
+}
+
+// DeployCronJob 部署CronJob
+// @Tags CronJob
+// @Summary 部署CronJob
+// @Security ApiKeyAuth
+// @accept application/json
+// @Produce application/json
+// @Param data body model.CronJob true "部署CronJob"
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
+// @Router /cronJob/deployCronJob [post]
+func DeployCronJob(c *gin.Context) {
+	var cronJob model.CronJob
+	_ = c.ShouldBindJSON(&cronJob)
+	if cronJob.ExecHost == "" {
+		global.GVA_LOG.Error("部署失败!", zap.Any("err", errors.New("没有指定执行的主机IP")))
+		response.FailWithMessage("部署失败,没有指定执行的主机IP", c)
+	}
+	if err := service.DeployCronJob(cronJob); err != nil {
+		global.GVA_LOG.Error("部署失败!", zap.Any("err", err))
+		response.FailWithMessage("部署失败: "+ err.Error(), c)
+	} else {
+		response.OkWithMessage("部署成功", c)
 	}
 }

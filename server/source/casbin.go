@@ -133,6 +133,7 @@ var carbines = []gormadapter.CasbinRule{
 	{PType: "p", V0: "888", V1: "/cronJob/deleteCronJobByIds", V2: "DELETE"},
 	{PType: "p", V0: "888", V1: "/cronJob/updateCronJob", V2: "PUT"},
 	{PType: "p", V0: "888", V1: "/cronJob/findCronJob", V2: "GET"},
+	{PType: "p", V0: "888", V1: "/cronJob/deployCronJob", V2: "POST"},
 	{PType: "p", V0: "888", V1: "/cronJob/getCronJobList", V2: "GET"}, //定时任务结束
 	{PType: "p", V0: "8881", V1: "/base/login", V2: "POST"},
 	{PType: "p", V0: "8881", V1: "/user/register", V2: "POST"},

@@ -7,6 +7,7 @@ require (
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.1183
 	github.com/aliyun/aliyun-oss-go-sdk v2.1.6+incompatible
+	github.com/apenella/go-ansible v1.1.2
 	github.com/baiyubin/aliyun-sts-go-sdk v0.0.0-20180326062324-cfa1a18b161f // indirect
 	github.com/casbin/casbin/v2 v2.11.0
 	github.com/casbin/gorm-adapter/v3 v3.0.2
@@ -41,7 +42,6 @@ require (
 	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.0
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.7.3

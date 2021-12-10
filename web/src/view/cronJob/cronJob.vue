@@ -71,6 +71,7 @@
       <el-table-column label="备注" prop="comment" width="120" /> <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateCronJob(scope.row)">变更</el-button>
+          <el-button size="small" type="warning" icon="el-icon-edit" class="table-button" @click="deployCronJob(scope.row)">部署</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRow(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -131,6 +132,7 @@ import {
   deleteCronJobByIds,
   updateCronJob,
   findCronJob,
+  deployCronJob,
   getCronJobList
 } from '@/api/cronJob' //  此处请自行替换地址
 import { formatTimeToStr } from '@/utils/date'
@@ -232,6 +234,22 @@ export default {
       if (res.code === 0) {
         this.formData = res.data.recronJob
         this.dialogFormVisible = true
+      }
+    },
+    async deployCronJob(row) {
+      if (row.exec_host === '') {
+        this.$message({
+          type: 'error',
+          message: '没有指定执行的主机IP'
+        })
+        return
+      }
+      const res = await deployCronJob(row)
+      if (res.code === 0) {
+        this.$message({
+          type: 'success',
+          message: '部署成功'
+        })
       }
     },
     closeDialog() {
