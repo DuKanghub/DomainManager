@@ -26,6 +26,7 @@ func NewCmdClient(a *AnsibleAdHoc) {
 	ansibleConnectionOptions := &options.AnsibleConnectionOptions{
 		User:         a.SUser.Username,
 		AskPass:      false,
+		SSHCommonArgs: "'-o StrictHostKeyChecking=no'",
 		SSHExtraArgs: "'-p " + strconv.Itoa(a.Host.Port) + "'",
 	}
 	ansibleAdhocOptions := &adhoc.AnsibleAdhocOptions{
