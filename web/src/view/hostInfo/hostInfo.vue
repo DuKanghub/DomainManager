@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column label="用户" prop="user_id" width="120">
         <template slot-scope="scope">
-          {{ filterDict(scope.row.user_id,"SSHUser") }}
+          {{ scope.row.SSHUser.name }}
         </template>
       </el-table-column>
       <el-table-column label="分组" prop="group_id" width="120">
@@ -101,7 +101,7 @@
         </el-form-item>
         <el-form-item label="用户:">
           <el-select v-model="formData.user_id" placeholder="请选择" clearable>
-            <el-option v-for="(item,key) in SSHUserOptions" :key="key" :label="item.label" :value="item.value" />
+            <el-option v-for="(item,key) in SSHUsers" :key="key" :label="item.name" :value="item.ID" />
           </el-select>
         </el-form-item>
         <el-form-item label="分组:">
@@ -127,6 +127,7 @@ import {
   findHostInfo,
   getHostInfoList
 } from '@/api/hostInfo' //  此处请自行替换地址
+import { getSSHUsers } from '@/api/sshUser'
 import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
@@ -157,6 +158,7 @@ export default {
       deleteVisible: false,
       multipleSelection: [],
       SSHUserOptions: [],
+      SSHUsers: [],
       HostGroupOptions: [],
       formData: {
         ip: '',
@@ -172,6 +174,11 @@ export default {
     await this.getTableData()
     await this.getDict('SSHUser')
     await this.getDict('HostGroup')
+    const res = await getSSHUsers()
+    if (res.code === 0) {
+      this.SSHUsers = res.data
+    }
+    console.log(this.SSHUsers)
   },
   methods: {
   // 条件搜索前端看此方法

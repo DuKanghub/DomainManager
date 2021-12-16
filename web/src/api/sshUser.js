@@ -95,3 +95,18 @@ export const getSSHUserList = (params) => {
     params
   })
 }
+
+// @Tags SSHUser
+// @Summary 获取所有ssh用户的id和name
+// @Security ApiKeyAuth
+// @accept application/json
+// @Produce application/json
+// @Success 200 {string} string "{"success":true,"data":{},"msg":"获取成功"}"
+// @Router /sshUser/getSSHUsers [get]
+export const getSSHUsers = (params) => {
+  return service({
+    url: '/sshUser/getSSHUsers',
+    method: 'get',
+    params
+  })
+}

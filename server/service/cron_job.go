@@ -14,6 +14,7 @@ func CreateCronJob(cronJob model.CronJob) (err error) {
 	err = global.GVA_DB.Create(&cronJob).Error
 	return err
 }
+
 // CreateCronJob 部署CronJob到目标主机
 // Author [piexlmax](https://github.com/DuKanghub)
 func DeployCronJob(cronJob model.CronJob) (err error) {
@@ -26,7 +27,7 @@ func DeployCronJob(cronJob model.CronJob) (err error) {
 		return err
 	}
 	fmt.Printf("host: +%v\n", host)
-	err = global.GVA_DB.Where("id = ?", host.UserId).First(&user).Error
+	err = global.GVA_DB.Where("id = ?", host.SSHUserID).First(&user).Error
 	if err != nil {
 		return err
 	}

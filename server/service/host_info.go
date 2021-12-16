@@ -4,6 +4,7 @@ import (
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
+	"gorm.io/gorm"
 )
 
 // CreateHostInfo 创建HostInfo记录
@@ -23,7 +24,7 @@ func DeleteHostInfo(host model.HostInfo) (err error) {
 // DeleteHostInfoByIds 批量删除HostInfo记录
 // Author [piexlmax](https://github.com/piexlmax)
 func DeleteHostInfoByIds(ids request.IdsReq) (err error) {
-	err = global.GVA_DB.Delete(&[]model.HostInfo{},"id in ?",ids.Ids).Error
+	err = global.GVA_DB.Delete(&[]model.HostInfo{}, "id in ?", ids.Ids).Error
 	return err
 }
 
@@ -46,23 +47,25 @@ func GetHostInfo(id uint) (err error, host model.HostInfo) {
 func GetHostInfoInfoList(info request.HostInfoSearch) (err error, list interface{}, total int64) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-    // 创建db
+	// 创建db
 	db := global.GVA_DB.Model(&model.HostInfo{})
-    var hosts []model.HostInfo
-    // 如果有条件搜索 下方会自动创建搜索语句
-    if info.IP != "" {
-        db = db.Where("`ip` LIKE ?","%"+ info.IP+"%")
-    }
-    if info.HostName != "" {
-        db = db.Where("`hostname` LIKE ?","%"+ info.HostName+"%")
-    }
-    if info.Port != 0 {
-        db = db.Where("`port` = ?",info.Port)
-    }
-    if info.Active != nil {
-        db = db.Where("`active` = ?",info.Active)
-    }
+	var hosts []model.HostInfo
+	// 如果有条件搜索 下方会自动创建搜索语句
+	if info.IP != "" {
+		db = db.Where("`ip` LIKE ?", "%"+info.IP+"%")
+	}
+	if info.HostName != "" {
+		db = db.Where("`hostname` LIKE ?", "%"+info.HostName+"%")
+	}
+	if info.Port != 0 {
+		db = db.Where("`port` = ?", info.Port)
+	}
+	if info.Active != nil {
+		db = db.Where("`active` = ?", info.Active)
+	}
 	err = db.Count(&total).Error
-	err = db.Limit(limit).Offset(offset).Find(&hosts).Error
+	err = db.Preload("SSHUser", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id,name")
+	}).Limit(limit).Offset(offset).Find(&hosts).Error
 	return err, hosts, total
 }
