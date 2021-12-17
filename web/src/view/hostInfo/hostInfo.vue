@@ -60,7 +60,7 @@
       </el-table-column>
       <el-table-column label="用户" prop="user_id" width="120">
         <template slot-scope="scope">
-          {{ scope.row.SSHUser.name }}
+          {{ scope.row.name }}
         </template>
       </el-table-column>
       <el-table-column label="分组" prop="group_id" width="120">
@@ -157,7 +157,7 @@ export default {
       type: '',
       deleteVisible: false,
       multipleSelection: [],
-      SSHUserOptions: [],
+      // SSHUserOptions: [],
       SSHUsers: [],
       HostGroupOptions: [],
       formData: {
@@ -172,13 +172,13 @@ export default {
   },
   async created() {
     await this.getTableData()
-    await this.getDict('SSHUser')
+    // await this.getDict('SSHUser')
     await this.getDict('HostGroup')
     const res = await getSSHUsers()
     if (res.code === 0) {
       this.SSHUsers = res.data
     }
-    console.log(this.SSHUsers)
+    // console.log(this.SSHUsers)
   },
   methods: {
   // 条件搜索前端看此方法
@@ -242,7 +242,7 @@ export default {
         ip: '',
         hostname: '',
         port: 22,
-        active: false,
+        active: true,
         user_id: 1,
         group_id: 0
       }
@@ -267,6 +267,7 @@ export default {
           res = await createHostInfo(this.formData)
           break
         case 'update':
+          console.log(this.formData)
           res = await updateHostInfo(this.formData)
           break
         default:

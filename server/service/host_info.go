@@ -4,7 +4,6 @@ import (
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
-	"gorm.io/gorm"
 )
 
 // CreateHostInfo 创建HostInfo记录
@@ -49,7 +48,7 @@ func GetHostInfoInfoList(info request.HostInfoSearch) (err error, list interface
 	offset := info.PageSize * (info.Page - 1)
 	// 创建db
 	db := global.GVA_DB.Model(&model.HostInfo{})
-	var hosts []model.HostInfo
+	var hosts []model.HostRes
 	// 如果有条件搜索 下方会自动创建搜索语句
 	if info.IP != "" {
 		db = db.Where("`ip` LIKE ?", "%"+info.IP+"%")
@@ -64,8 +63,10 @@ func GetHostInfoInfoList(info request.HostInfoSearch) (err error, list interface
 		db = db.Where("`active` = ?", info.Active)
 	}
 	err = db.Count(&total).Error
-	err = db.Preload("SSHUser", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id,name")
-	}).Limit(limit).Offset(offset).Find(&hosts).Error
+	sql := "select t.id,t.created_at as CreatedAt,t.ip,t.hostname as HostName,t.port,t.active,t.user_id as SSHUserID,t.group_id as GroupId,d.name from host as t,ssh_user as d where t.deleted_at is null and t.user_id = d.id;"
+	err = db.Limit(limit).Offset(offset).Raw(sql).Scan(&hosts).Error
+	//err = db.Preload("SSHUser", func(db *gorm.DB) *gorm.DB {
+	//	return db.Select("id,name")
+	//}).Limit(limit).Offset(offset).Find(&hosts).Error
 	return err, hosts, total
 }
