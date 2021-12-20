@@ -26,17 +26,17 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column label="日期" width="180">
+      <el-table-column label="日期" width="160">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="名称" prop="name" width="120" />
+      <el-table-column label="名称" prop="name" width="100" />
       <el-table-column label="用户名" prop="username" width="100" />
       <el-table-column :show-tooltip-when-overflow="true" label="密码" prop="password" width="120" />
-      <el-table-column :show-tooltip-when-overflow="true" label="私钥" prop="privateKey" width="180" />
-      <el-table-column label="启用sudo" prop="become" width="100">
+      <el-table-column :show-tooltip-when-overflow="true" label="私钥" prop="privateKey" width="150" />
+      <el-table-column label="启用sudo" prop="become" width="90">
         <template slot-scope="scope">{{ scope.row.become|formatBoolean }}</template>
       </el-table-column>
-      <el-table-column label="秘钥认证" prop="key_auth" width="100">
+      <el-table-column label="秘钥认证" prop="key_auth" width="80">
         <template slot-scope="scope">{{ scope.row.key_auth|formatBoolean }}</template>
       </el-table-column>
       <el-table-column label="备注" prop="comment" width="120" /> <el-table-column label="操作">
@@ -67,8 +67,21 @@
         <el-form-item label="密码:">
           <el-input v-model="formData.password" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="私钥:">
-          <el-input v-model="formData.privateKey" type="textarea" autosize clearable placeholder="请输入" />
+        <el-form-item v-if="formData.key_auth" label="私钥:">
+          <el-input v-model="formData.privateKey" type="textarea" :autosize="{maxRows: 5}" clearable placeholder="请输入" />
+          <el-upload
+            class="upload-demo"
+            drag
+            action=""
+            :http-request="e => uploadHandler(e)"
+            :auto-upload="false"
+            :on-change="uploadAction"
+            :limit="1"
+          >
+            <i class="el-icon-upload" />
+            <div class="el-upload__text">将私钥文件拖到此处，或<em>点击上传</em></div>
+            <div slot="tip" class="el-upload__tip">只能上传私钥</div>
+          </el-upload>
         </el-form-item>
         <el-form-item label="启用sudo:">
           <el-switch v-model="formData.become" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
@@ -126,7 +139,6 @@ export default {
       type: '',
       deleteVisible: false,
       multipleSelection: [],
-
       formData: {
         name: '',
         username: '',
@@ -157,6 +169,40 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+    },
+    uploadAction(file) {
+      console.log('读取到文件', file.name)
+      console.log('文件大小', file.size)
+      // 可以通过file.raw.type来判断文件类型
+      if (file.size >= 3000) {
+        this.$message({
+          type: 'error',
+          message: '上传文件过大，可能不是私钥文件'
+        })
+        return
+      }
+      const reader = new FileReader()
+      reader.readAsText(file.raw)
+      // console.log(this.formData)
+      reader.onload = () => {
+        const result = reader.result
+        // console.log(result)
+        // console.log('数据长度', result.length)
+        if (!result.startsWith('-----BEGIN') || !result.includes('PRIVATE KEY')) {
+          this.$message({
+            type: 'error',
+            message: '无效的私钥文件'
+          })
+          return
+        }
+        // this.formData.privateKey = reader.result
+        // 由于vue无法检测对象property的添加或删除，所以得用下面的方法动态设置，上面的方法不能及时显示。
+        this.$set(this.formData, 'privateKey', reader.result)
+      }
+      // console.log(this.formData)
+    },
+    uploadHandler(e) {
+      console.log(e)
     },
     deleteRow(row) {
       this.$confirm('确定要删除吗?', '提示', {
@@ -257,5 +303,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .upload-demo {
+    margin-top: 10px;
+  }
 </style>
