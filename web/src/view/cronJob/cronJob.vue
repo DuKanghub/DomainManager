@@ -97,15 +97,9 @@
           <el-input v-model="formData.spec" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="命令:">
-
           <el-input v-model="formData.command" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="创建者:">
-
-          <el-input v-model.number="formData.creator" clearable placeholder="请输入" />
-        </el-form-item>
         <el-form-item label="执行主机:">
-
           <el-input v-model="formData.exec_host" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item label="启用:">
