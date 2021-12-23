@@ -57,7 +57,7 @@
           <el-input v-model="formData.url" clearable placeholder="请输入" />
         </el-form-item>
         <el-form-item v-if="isShow" label="过期时间:">
-          <el-date-picker v-model="formData.expiredAt" type="date" placeholder="选择日期" clearable />
+          <el-date-picker v-model="formData.expiredAt" type="datetime" placeholder="选择日期" clearable />
         </el-form-item>
         <el-form-item v-if="isShow" label="所属域名:">
           <el-input v-model="formData.certDomain" clearable placeholder="请输入" />
