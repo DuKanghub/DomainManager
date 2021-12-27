@@ -81,6 +81,12 @@ func CheckAllSSL() {
 	for _, record := range records {
 		remained := record.ExpiredAt.Sub(time.Now())
 		// TODO: 这里以后要弄成自动续签证书或通知
+		subject := fmt.Sprintf("证书: %s即将过期", record.CertDomain)
+		content := fmt.Sprintf("证书过期时间：%s", record.ExpiredAt.Local().String())
+		err = utils.Email(subject, content)
+		if err != nil {
+			global.GVA_LOG.Error("邮件发送失败", zap.Any("email", err))
+		}
 		global.GVA_LOG.Warn("证书即将过期", zap.Any("证书", record.CertDomain), zap.Any("剩余时间", remained))
 	}
 }
