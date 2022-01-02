@@ -133,6 +133,7 @@ var apis = []model.SysApi{
 	{global.GVA_MODEL{ID: 130, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/findCronJob", "根据ID获取定时任务", "cronJob", "GET"},
 	{global.GVA_MODEL{ID: 131, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/getCronJobList", "获取定时任务列表", "cronJob", "GET"},
 	{global.GVA_MODEL{ID: 132, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/cronJob/deployCronJob", "部署CronJob到目标主机", "cronJob", "POST"},
+	{global.GVA_MODEL{ID: 133, CreatedAt: time.Now(), UpdatedAt: time.Now()}, "/sshUser/getSSHUsers", "获取全部SSHUser简单信息", "sshUser", "GET"},
 }
 
 //@author: [SliverHorn](https://github.com/SliverHorn)
