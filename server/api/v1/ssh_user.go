@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
@@ -116,7 +115,6 @@ func GetSSHUsers(c *gin.Context) {
 		users []model.SSHUser
 		err   error
 	)
-	fmt.Println(1112222)
 	err, users = service.GetSSHUserList()
 	if err != nil {
 		response.FailWithMessage("获取用户列表失败", c)

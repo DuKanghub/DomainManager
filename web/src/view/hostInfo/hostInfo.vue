@@ -72,6 +72,7 @@
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateHostInfo(scope.row)">变更</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRow(scope.row)">删除</el-button>
+          <el-button type="warning" icon="el-icon-s-platform" size="mini" @click="sshRow(scope.row)">远程</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -130,6 +131,8 @@ import {
 import { getSSHUsers } from '@/api/sshUser'
 import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
+import Term from '@/view/term/term'
+
 export default {
   name: 'HostInfo',
   filters: {
@@ -201,6 +204,27 @@ export default {
       }).then(() => {
         this.deleteHostInfo(row)
       })
+    },
+    sshRow(row) {
+      console.log(row)
+      // 新标签页打开, TODO: 跳转后会报404
+      // const newUrl = this.$router.resolve(
+      //   {
+      //     path: '/term',
+      //     params: { id: row.ID }
+      //   }
+      // )
+      // console.log(newUrl)
+      // window.open(newUrl.href, '_blank')
+      // 直接写死跳转地址，可以成功跳转
+      window.open('/#/layout/hostManager/term/' + row.ID, '_blank')
+      // 当前页面打开
+      // this.$router.push({
+      //   name: 'term',
+      //   params: {
+      //     id: row.ID
+      //   }
+      // })
     },
     async onDelete() {
       const ids = []

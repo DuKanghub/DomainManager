@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"gin-vue-admin/global"
 	"gin-vue-admin/model"
 	"gin-vue-admin/model/request"
@@ -113,7 +112,7 @@ func GetSSHUser(id uint) (err error, sshUser model.SSHUser) {
 
 func GetSSHUserList() (err error, sshUsers []model.SSHUser) {
 	err = global.GVA_DB.Select("id,name").Find(&sshUsers).Error
-	fmt.Println("users: ", sshUsers)
+	// fmt.Println("users: ", sshUsers)
 	return
 }
 
