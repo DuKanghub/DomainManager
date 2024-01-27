@@ -25,6 +25,10 @@ yarn-error.log*
 
 /server/log/
 /server/gva
+/server/gin-vue-admin
 /server/latest_log
 
 *.iml
+*.zip
+*.exe
+

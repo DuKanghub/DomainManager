@@ -210,7 +210,7 @@ export default {
       // 新标签页打开, TODO: 跳转后会报404
       // const newUrl = this.$router.resolve(
       //   {
-      //     path: '/term',
+      //     path: 'term',
       //     params: { id: row.ID }
       //   }
       // )

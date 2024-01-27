@@ -147,7 +147,7 @@ func (a AliDnsProvider) FlushRecordsToDb(req *model.Record) (err error) {
 	if err != nil {
 		return err
 	}
-	//fmt.Printf("domain: %s, RecordTotal: %d, total: %d \n", req.DomainInfo, domain.RecordTotal, total)
+	fmt.Printf("domain: %s, 数据库记录总数: %d, 本次请求获取记录总数: %d \n", req.Domain, domain.RecordTotal, total)
 	if domain.RecordTotal != total {
 		domain.RecordTotal = total
 		_ = global.GVA_DB.Where("domain = ?", req.Domain).Save(&domain).Error

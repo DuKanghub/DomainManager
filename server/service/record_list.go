@@ -198,13 +198,13 @@ func GetRecordInfoList(info request.RecordListSearch) (err error, list interface
 		rrs := strings.Split(info.RR, ",")
 		db = db.Where("`rr` in (?)", rrs)
 	} else if info.RR != "" {
-		db = db.Where("`rr` = ?",info.RR)
+		db = db.Where("`rr` like ?","%" + info.RR + "%")
 	}
 	if strings.Contains(info.Value, ",") {
 		values := strings.Split(info.Value, ",")
 		db = db.Where("`value` in (?)", values)
 	} else if info.Value != "" {
-		db = db.Where("`value` = ?",info.Value)
+		db = db.Where("`value` like ?","%" + info.Value + "%")
 	}
 
 	if info.Status != 0 {
